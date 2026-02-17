@@ -190,12 +190,11 @@ English docs:
 
 ## 注意事项
 
-- `AsyncCodexAgenticClient` 不支持 `reconnect_attempts`。
 - 遇到 `AppServerConnectionError` 时请重建 client，不要依赖隐式自动重连。
-- 内部 app-server `stderr` 缓冲仅保留最近 500 行。
-- server request method 命名请使用 `item/tool/requestUserInput`。
-- Policy 的 LLM judge 解析为严格 JSON-only；自由文本中的嵌入 JSON 不会被提取。
-- 非法 policy decision 值会抛出 `CodexAgenticError`。
+- 内部 app-server `stderr` 缓冲在 SDK 诊断上下文中仅保留最近 500 行。
+- 使用底层 server request handlers 时，method 名必须精确为 `item`、`tool` 或 `requestUserInput`。
+- Policy 的 LLM judge 采用严格 JSON-only 解析：judge 输出必须是纯 JSON 对象；自由文本中的嵌入 JSON 不会被提取。
+- command/file policy decision 的非法取值（合法值：`accept`、`acceptForSession`、`decline`、`cancel`）会抛出 `CodexAgenticError`。
 
 ## 开发
 

@@ -190,12 +190,11 @@ English:
 
 ## Notes
 
-- `AsyncCodexAgenticClient` does not accept `reconnect_attempts`.
 - After `AppServerConnectionError`, recreate the client instead of relying on implicit reconnect behavior.
-- Internal app-server `stderr` buffering is bounded to the latest 500 lines.
-- For server request method naming, use `item/tool/requestUserInput`.
-- Policy LLM-judge parsing is strict JSON-only; embedded JSON snippets in free text are rejected.
-- Invalid policy decision values raise `CodexAgenticError`.
+- Internal app-server `stderr` buffering keeps only the latest 500 lines in SDK-captured diagnostics.
+- When using low-level server request handlers, method names must be exactly `item`, `tool`, or `requestUserInput`.
+- Policy LLM-judge parsing is strict JSON-only: judge output must be a pure JSON object; embedded JSON snippets in free text are rejected.
+- Invalid command/file policy decision values (allowed: `accept`, `acceptForSession`, `decline`, `cancel`) raise `CodexAgenticError`.
 
 ## Development
 
