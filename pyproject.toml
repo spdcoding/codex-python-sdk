@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codex-python-sdk"
+version = "0.1.0"
+description = "Python wrapper for Codex app-server JSON-RPC interface"
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+license = "MIT"
+authors = [
+  {name = "Henry_spdcoding"},
+]
+classifiers = [
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+]
+
+[project.urls]
+Homepage = "https://github.com/spdcoding/codex-python-sdk"
+Repository = "https://github.com/spdcoding/codex-python-sdk"
+Issues = "https://github.com/spdcoding/codex-python-sdk/issues"
+Documentation = "https://github.com/spdcoding/codex-python-sdk/blob/HEAD/docs/tutorial.md"
+Codex-App-Server = "https://developers.openai.com/codex/app-server/"
+
+[project.scripts]
+codex-python-sdk-demo = "codex_python_sdk.examples.demo_smoke:main"
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.2",
+  "pytest-timeout",
+  "rich",
+]
+build = [
+  "setuptools>=61",
+  "wheel",
+  "build",
+  "twine",
+]
+
+[tool.setuptools.packages.find]
+include = ["codex_python_sdk*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+timeout = 120
+timeout_method = "thread"
+markers = [
+  "real: tests that depend on real codex app-server/network/account runtime",
+]
+
+[tool.uv]
+package = true
