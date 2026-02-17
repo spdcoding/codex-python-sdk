@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Sync dependencies
+        run: ./uv-sync.sh
+
+      - name: Run tests (non-real)
+        run: uv run python3 -m pytest -q -m "not real"
+
+      - name: Run tests (real, 3.12 only)
+        if: matrix.python-version == '3.12'
+        run: uv run python3 -m pytest -q -m "real"
+
+      - name: Build artifacts
+        run: uv run python3 -m build --no-isolation
+
+      - name: Validate package metadata
+        run: uv run python3 -m twine check dist/*
